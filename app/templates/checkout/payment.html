@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block app_container %}
+<section class="slice slice-lg" data-delimiter="1">
+    {% from "bootstrap4/form.html" import render_field %}
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token() }}
+            <div class="row typeface-palette">
+                <div class="col-md-2"></div>         
+                <!-- 訂單資訊 -->
+                <div class="col-md-4 typeface-entry">
+                    <label>收件人</label>
+                    <div class="input-group input-group-transparent mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <input name="receiver" type="text" class="form-control" value="{{ session['receiver'] }}" readonly>
+                    </div>
+
+                    <label>聯絡電話</label>
+                    <div class="input-group input-group-transparent mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-phone"></i>
+                            </span>
+                        </div>
+                        <input name="phone" type="text" class="form-control" value="{{ session['phone'] }}" readonly>
+                    </div>
+
+                    <label>email</label>
+                    <div class="input-group input-group-transparent mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                        <input name="email" type="text" class="form-control" value="{{ session['email'] }}" readonly>
+                    </div>
+
+                    <label>取貨方式</label>
+                    <div class="input-group-prepend mb-4">
+                        <select name="received_type" class="selectpicker">
+                            <option value="{{ session['received_type'] }}" selected>{{ session['received_type'] }}</option>
+                        </select>
+                    </div>
+
+                    <label>地址</label>
+                    <div class="input-group input-group-transparent mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-address-card"></i>
+                            </span>
+                        </div> 
+                        <input name="address" type="text" class="form-control" value="{{ session['address'] }}" readonly> 
+                    </div>
+
+                    <label>訂單備註</label>
+                    <div class="input-group input-group-transparent mb-4">
+                        <textarea name="note" class="form-control" placeholder="非必填" rows="3"></textarea>
+                    </div>
+
+                    <div class="text mt-3">
+                        <a href="{{ url_for('checkout_details') }}">
+                            <button type="button" class="btn btn-sm btn-outline-tertiary btn-icon">
+                                <span class="btn-inner--text">上一步</span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- cart list -->
+                <div class="col-md-4 ml-3">
+                    
+                    <div class="card">
+                        <!-- 標題 -->
+                        <div class="card-header py-4">
+                            <div class="d-flex align-items-center">
+                                <h5 class="heading mb-0">購物車</h5>
+                            </div>
+                        </div>
+                        
+                        <!-- body -->
+                        <div class="list-group">
+                            {% for i in current_user.cart.cart_products %}
+                                <div class="list-group-item d-flex align-items-center">
+                                    <!-- 商品圖片 -->
+                                    <div class="list-group-img">
+                                        <img src="{{ i.product.img }}" class="avatar avatar-lg mr-3">
+                                    </div>
+                                    <!-- 商品資訊 -->
+                                    <div class="list-group-content list-group-heading">
+                                        <span class="font-weight-700"><strong>{{ i.quantity }}</strong> * {{ i.product.name }}</span>
+                                        
+                                    </div>
+                                    
+                                    <div class="list-group-content text-right"><span>NT$ {{ i.product.price * i.quantity }}</span></div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- footer -->
+                        <div class="card-footer">
+                            <div class="row align-items-center">
+                                <div class="col-4">
+                                    <span>小計</span>
+                                </div>
+                                <div class="col-8 text-right">
+                                    <span>NT$ {{ total_amount }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right mt-3">
+                        {% from "bootstrap4/form.html" import render_field %}
+                        <button type="submit" class="btn btn-sm btn-tertiary btn-icon">
+                            <span class="btn-inner--icon"><i class="fas fa-check"></i></span>
+                            <span class="btn-inner--text">結帳送出</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row typeface-palette mt-3">
+                <div class="col-md-4"></div>
+            </div>
+        </form>
+</section>
+{% endblock %}

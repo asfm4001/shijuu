@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block app_container %}
+    <section class="slice slice-lg" data-delimiter="1">
+        <div class="row typeface-palette">
+            <div class="col-md-4"></div>
+            <!-- order_query form -->
+            <div class="col-md-4 typeface-entry">
+                {% from "bootstrap4/form.html" import render_field %}
+                <form method="POST" enctype="multipart/form-data">
+                {{ form.csrf_token() }}
+                    <label>聯絡電話</label>
+                    <div class="input-group input-group-transparent mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-phone"></i>
+                            </span>
+                        </div>
+                        <input name="phone" type="text" class="form-control" placeholder="  請輸入收件人聯絡電話">
+                    </div>
+                    <!-- <label>email</label>
+                    <div class="input-group input-group-transparent mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                        <input name="email" type="text" class="form-control" placeholder="  請輸入收件人email">
+                    </div> -->
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-sm btn-outline-tertiary btn-icon">
+                            <span class="btn-inner--text">查詢</span>
+                            <span class="btn-inner--icon"><i class="fas fa-search"></i></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

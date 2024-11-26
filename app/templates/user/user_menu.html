@@ -1,0 +1,17 @@
+<li class="nav-item dropdown">
+    <a class="nav-link nav-link-icon" href="#" id="navbar_1_dropdown_3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i></a>
+    <div class="dropdown-menu dropdown-menu-right">
+        <h6 class="dropdown-header">User menu</h6>
+        <a class="dropdown-item" href="#">
+            <span class="float-right badge badge-tertiary">4</span>
+            <i class="fas fa-envelope text-tertiary"></i>Messages
+        </a>
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-cog text-tertiary"></i>Settings
+        </a>
+        <div class="dropdown-divider" role="presentation"></div>
+        <a class="dropdown-item" href="{{ url_for('logout') }}">
+            <i class="fas fa-sign-out-alt text-tertiary"></i>Sign out
+        </a>
+    </div>
+</li>

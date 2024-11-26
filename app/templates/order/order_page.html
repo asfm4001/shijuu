@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block app_container %}
+    <section class="slice slice-lg" data-delimiter="1">
+        <div class="container">
+            <table class="table table-sm table-hover align-items-center">
+                <thead>
+                    <tr>
+                        <th scope="col">訂單日期</th>
+                        <th scope="col">訂單編號</th>
+                        <th scope="col">出貨狀態</th>
+                        <th scope="col">付款狀態</th>
+                        <th scope="col">收件人</th>
+                        <th scope="col">電話</th>
+                        <th scope="col">取貨方式</th>
+                        <th scope="col">地址</th>
+                        <th scope="col">異動日期</th>
+                        <th scope="col">備註</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 訂單資訊 -->
+                    {% for order in orders %}
+                        <tr class="bg-white" scope="row">
+                            <td>{{ order.created_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.status }}</td>
+                            <td>{{ order.payment_status }}</td>
+                            <td>{{ order.receiver }}</td>
+                            <td>{{ order.phone }}</td>
+                            <td>{{ order.received_type }}</td>
+                            <td>{{ order.address }}</td>
+                            <td>{{ order.updated_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ order.note }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block app_container %}
+    <section class="slice slice-lg" data-delimiter="1">
+        <div class="container">
+            <div class="d-flex justify-content-end">
+                {% if current_user.is_admin is true %}
+                    {% if form %}
+                        <button type="button" class="btn btn-sm btn-outline-dark btn-icon" data-toggle="modal" data-target="#add_product">
+                            <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
+                            <span class="btn-inner--text">新增商品</span>
+                        </button>
+                        <!-- Modal, 未限制img大小 -->
+                        {% include "product/add_product.html" %}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <br>
+            <div class="row cols-xs-space cols-sm-space cols-md-space">
+                {% if products %}
+                {% for i in products %}
+                    <div class="col-lg-3">
+                        <div class="card mt-3"  style="width: 15rem;">
+                            <img src="{{ i.img }}" class="card-img-top img-fluid img-thumbnail" style="height: 15rem;">
+                            <div class="card-body text-center">
+                                <h5 class="heading mb-1">
+                                    <span class="d-block">{{ i.name }}</span>
+                                    <small class="text-muted">NT {{ i.price }}</small>
+                                </h5>
+                                <p class="mt-2">{{ i.context }}</p>
+                                
+                                <div class="justify-content-center">
+                                    {% if current_user.cart %}
+                                    <form action="{{ url_for('add_cart', cart_id=current_user.cart.id, product_id=i.id) }}" method="POST">
+                                        <button type="submit" class="btn btn-sm btn-outline-tertiary btn-icon onclick">
+                                            <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
+                                            {% if current_user.cart.checkProduct(i)[0] %}
+                                                <span class="btn-inner--text">再加入</span>
+                                            {% else %}
+                                                <span class="btn-inner--text">加入購物車</span>
+                                            {% endif %}
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                                {% if current_user.is_admin is true %}
+                                    <div class="mt-1 justify-content-center">
+                                        <button type="button" class="btn btn-sm btn-outline-dark btn-icon-only" data-toggle="modal" data-target="#update_product_{{ loop.index }}">
+                                            <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
+                                        </button>
+                                        <!-- Modal, data-target加上{{ loop.index }}變數對映modal's id標籤 -->
+                                        {% include "product/update_product.html" %}
+                                        <button type="button" class="btn btn-sm btn-outline-danger btn-icon-only" data-toggle="modal" data-target="#delete_product_{{ loop.index }}">
+                                            <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
+                                        </button>
+                                        <!-- Modal, data-target加上{{ loop.index }}變數對映modal's id標籤 -->
+                                        {% include "product/delete_product.html" %}
+                                    </div>
+                                {% endif %}
+                                <div class="mt-2 justify-content-center">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">4</a></li>
+                  <li class="page-item"><a class="page-link" href="#">5</a></li>
+                  <li class="page-item"><a class="page-link" href="#">6</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>
+        </div>
+    </section>
+{% endblock %}

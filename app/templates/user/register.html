@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block app_container %}
+<section class="slice slice-lg">
+    <div class="container">
+      <div class="row align-items-center cols-xs-space cols-sm-space cols-md-space">
+        <div class="col-lg-6">
+          <h3 class="heading h3 mb-4">註冊</h3>
+          {% from 'bootstrap4/form.html' import render_field %}
+          <form method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token() }}
+            {{ render_field(form.username, placeholder="請輸入手機號碼或使用者代號", class="form-control") }}
+            {{ render_field(form.email, placeholder="example@gmail.com", class="form-control", type="email") }}
+            {{ render_field(form.password, placeholder="請輸入密碼(6~20位英數混合)", class="form-control") }}
+            {{ render_field(form.confirm, placeholder="", class="form-control") }}
+            {{ render_field(form.submit, class="btn btn-dark px-4") }}
+          </form>
+        </div>
+        <div class="col-lg-5 ml-lg-auto">
+          <h3 class="heading heading-3 strong-300">
+            宜蘭縣羅東鎮天祥路78號
+          </h3>
+          <p class="lead mt-4 mb-4">
+            E: <a href="#">yoyochen201207@gmail.com</a>
+            <br>
+            T: 03-954-5288
+          </p>
+          <p class="">
+            Probably the most complete UI kit out there. Multiple functionalities and controls added,  extended color palette and beautiful typography, designed as its own extended version of Bootstrap at  the highest level of quality.                             
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

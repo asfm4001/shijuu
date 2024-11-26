@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-dark bg-tertiary py-4">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('index') }}"><strong>Shijuu</strong> 西啾</a>
+    <button class="navbar-toggler" type="button" data-action="offcanvas-open" data-target="#navbar_main" aria-controls="navbar_main" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse offcanvas-collapse" id="navbar_main">
+      <ul class="navbar-nav ml-auto align-items-lg-center">
+        <h6 class="dropdown-header font-weight-600 d-lg-none px-0">Menu</h6>
+        <li class="nav-item ">
+          <a class="nav-link" href="{{ url_for('products_all') }}">全部商品</a>
+        </li>
+
+        <!-- 分類 -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbar_main_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分類</a>
+          <div class="dropdown-menu" aria-labelledby="navbar_1_dropdown_1">
+            <a class="dropdown-item" href="{{ url_for('products_categorys', category='gift_basket') }}">禮盒</a>
+            <a class="dropdown-item" href="{{ url_for('products_categorys', category='cake') }}">蛋糕</a>
+            <a class="dropdown-item" href="{{ url_for('products_categorys', category='milk_roll_cake') }}">生乳捲</a>
+          </div>
+        </li>
+
+        <li class="nav-item ">
+          <a class="nav-link" href="{{ url_for('order_query') }}">訂單查詢</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="#">常見問題</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{{ url_for('about') }}">關於Shijuu</a>
+        </li>
+        <div class="dropdown-divider d-lg-none my-4"></div>
+        
+        <h6 class="dropdown-header font-weight-600 d-lg-none px-0">Social Media</h6>
+        <li class="nav-item">
+          <a class="nav-link nav-link-icon" href="https://www.instagram.com/shijuu.coffee/" target="_blank"><i class="fab fa-instagram"></i><span class="ml-2 d-lg-none">Instagram</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-icon" href="https://www.facebook.com/Shijuu.coffee/" target="_blank"><i class="fab fa-facebook"></i><span class="ml-2 d-lg-none">Facebook</span></a>
+        </li>
+        <div class="dropdown-divider d-lg-none my-4"></div>
+
+        <h6 class="dropdown-header font-weight-600 d-lg-none px-0">User</h6>
+        <!-- 購物車 -->
+        {% block navbar_cart %}
+          {% if current_user.cart %}
+            {% if current_user.cart.cart_products %}
+              {% include "shopping_cart.html" %}
+            {% endif %}
+          {% endif %}
+        {% endblock %}
+          
+        <!-- user menu or signin -->
+        {% if not current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon " href="{{ url_for('signin') }}"><i class="fas fa-user"></i><span class="ml-2 d-lg-none">Signin</span></a>
+          </li>
+        {% else %}
+          {% include "user/user_menu.html" %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

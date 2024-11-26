@@ -1,0 +1,33 @@
+<div class="modal fade" id="update_product_{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="update_product" aria-hidden="true">
+    <div class="modal-dialog modal-fluid" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_title_6">編輯商品</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="py-3 text-center">
+                    {% from 'bootstrap4/form.html' import render_field %}
+                    <form method="POST" enctype="multipart/form-data" action="{{ url_for('update_product', product_id=i.id) }}">
+                        <!-- <img src="{{ i.img }}" class="card-img-top img-fluid img-thumbnail"> -->
+                        <img src="{{ i.img }}" class="avatar">
+                        {% if form %}
+                            {{ form.csrf_token() }}
+                            {{ render_field(form.img, class="form-control") }}
+                            {{ render_field(form.name, placeholder="商品名稱", class="form-control", value=i.name) }}
+                            {{ render_field(form.category, class="form-control selectpicker", title="商品種類", value=i.category) }}
+                            {{ render_field(form.price, placeholder="價錢", value=i.price) }}
+                        {% endif %}
+                        <div class="form-group">
+                            <label class="form-control-label" for="context"></label>
+                            <textarea class="form-control form-control" id="context" maxlength="200" name="context" placeholder="商品簡介" rows="5">{{ i.context}}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-dark">修改</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

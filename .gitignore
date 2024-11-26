@@ -1,0 +1,17 @@
+# 忽略環境變數(env), 內含帳號密碼
+.env
+
+# 忽略資料庫
+/instance
+
+# 忽略執行檔
+/__pycache__
+/app/__pycache__
+*.pyc
+
+# 忽略虛擬環境, vscode
+.venv
+.vscode
+
+# 忽略user上傳圖片
+app/static/product/items

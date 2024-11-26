@@ -1,0 +1,13 @@
+Flask == 2.3.1
+# Flask-Bootstrap
+Bootstrap-Flask == 2.2.0    # 支援bootstrap4, 5
+Flask-SQLAlchemy
+python-dotenv
+Flask-WTF == 1.2.1
+WTForms == 3.1.2
+email_validator == 2.2.0
+Flask-Bcrypt == 1.0.1
+Flask-Login == 0.6.3
+PyJWT == 2.9.0
+Flask-Mail == 0.10.0
+gunicorn == 23.0.0

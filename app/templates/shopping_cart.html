@@ -1,0 +1,65 @@
+<li class="nav-item dropdown">
+    <a class="nav-link nav-link-icon" href="#" id="navbar_1_dropdown_2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="ml-2 d-lg-none">Cart</span>
+        <!-- 購物車數量 -->
+        <span class="position-absolute top-0 start-100 translate-middle badge badge-pill badge-primary text-uppercase">
+            {{ current_user.cart.cart_products|length }}
+        </span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right dropdown-menu-xl py-0">
+        <div class="py-3 px-3">
+            <h5 class="heading mb-0">購物車</h5>
+        </div>
+
+        <!-- body -->
+        <div class="list-group">
+            {% for i in current_user.cart.cart_products %}
+                <a href="{{ url_for('products', product_id=i.product.id) }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <!-- 商品圖片 -->
+                    <div class="list-group-img">
+                        <img src="{{ i.product.img }}" class="avatar avatar-lg mr-3">
+                    </div>
+                    <div class="list-group-content list-group-heading">
+                        <h6>{{ i.product.name }}</h6>
+                    </div>
+                    <form action="{{ url_for('minus_cart', cart_id=current_user.cart.id, product_id=i.product.id) }}" method="POST">
+                        <button type="submit" class="btn btn-sm btn-secondary btn-icon-only">
+                            <span class="btn-inner--icon"><i class="fas fa-minus"></i></span>
+                        </button>
+                    </form>
+                    <div class="list-group-content text-center">
+                        <span> {{ i.quantity }} </span>
+                    </div>
+                    <form action="{{ url_for('add_cart', cart_id=current_user.cart.id, product_id=i.product.id) }}" method="POST">
+                        <button type="submit" class="btn btn-sm btn-secondary btn-icon-only">
+                            <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                    </form>
+                    <div class="list-group-content text-right">
+                        <div class="">NT {{ i.product.price }}</div>  
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <!-- footer-->
+        <div class="card-footer">
+            <div class="row align-items-center">
+                <div class="col-4">
+                    <span>小計</span>
+                </div>
+                <div class="col-8 text-right">
+                    {% set count = 0 %}
+                    {% for i in current_user.cart.cart_products %}
+                        
+                    {% endfor %}
+                    <span>NT {% if total_amount %}{{ total_amount }}{% endif %}</span>
+                </div>
+            </div>
+            <div class="py-3 text-center">
+                <a href="{{ url_for('checkout_details') }}" class="link link-sm link--style-3">結帳</a>
+            </div>
+        </div>
+    </div>
+</li>

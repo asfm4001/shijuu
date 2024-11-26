@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block container %}
+  {% block app_container %}
+    <section class="py-xl bg-cover bg-size--cover" style="background-image: url('/static/assets/images/backgrounds/img-1.jpg')">
+      <span class="mask bg-dark alpha-6"></span>
+      <div class="container d-flex align-items-center no-padding">
+        <div class="col">
+          <div class="row justify-content-center">
+            <div class="col-lg-4">
+              <div class="card bg-dark text-white">
+                <div class="card-body">
+                  <button type="button" class="btn btn-dark btn-nobg btn-zoom--hover" onclick="location.href='/'">
+                    <span class="btn-inner--icon"><i class="fas fa-arrow-left"></i></span>
+                  </button>
+                  <span class="clearfix"></span>
+                  <h3 class="heading text-white pt-2">登入</h3>
+                  {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                      {% for category, message in messages %}
+                        <div class="alert alert-dismissible fade show" role="alert">
+                          <span class="alert-inner--icon text-{{ category }}">
+                            {% if category == 'success' %}
+                              <i class="fas fa-check"></i>
+                            {% elif category == 'danger' %}
+                              <i class="fas fa-exclamation"></i>
+                            {% elif category == 'info' %}
+                              <i class="fas fa-info"></i>
+                            {% endif %}
+                          </span>
+                          <span class="alert-inner--text">{{ message }}</span>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                  {% endwith %}
+
+                  {% from 'bootstrap4/form.html' import render_field %}
+                  <form class="form-dark" method="POST" enctype="multipart/form-data">
+                    {{ form.csrf_token() }}
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="username" id="username" placeholder="請輸入電話號碼或使用者代號">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" name="password" id="password" placeholder="請輸入密碼(6~20位元)">
+                    </div>
+                    <div class="text-right mt-4"><a href="{{ url_for('register') }}" class="text-white">註冊</a> <a href="#" class="text-white">忘記密碼?</a></div>
+                    <button type="submit" class="btn btn-block bg-white mt-4"><span class="text-datk">Sign in</span></button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endblock %}
+{% endblock %}
