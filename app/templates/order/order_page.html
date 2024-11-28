@@ -9,29 +9,53 @@
                         <th scope="col">訂單日期</th>
                         <th scope="col">訂單編號</th>
                         <th scope="col">出貨狀態</th>
-                        <th scope="col">付款狀態</th>
                         <th scope="col">收件人</th>
                         <th scope="col">電話</th>
                         <th scope="col">取貨方式</th>
                         <th scope="col">地址</th>
+                        <th scope="col">付款狀態</th>
                         <th scope="col">異動日期</th>
-                        <th scope="col">備註</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 訂單資訊 -->
                     {% for order in orders %}
-                        <tr class="bg-white" scope="row">
-                            <td>{{ order.created_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <tr class="bg-white" scope="row" onclick="window.location='#'">
+                            <td>{{ order.created_time.strftime('%Y-%m-%d') }}</td>
                             <td>{{ order.id }}</td>
-                            <td>{{ order.status }}</td>
-                            <td>{{ order.payment_status }}</td>
+                            <td>
+                                <span class="badge badge-dot mr-4">
+                                    {% if order.status == "確認中" %}
+                                    <i class="bg-yellow"></i>{{ order.status }}
+                                    {% elif order.status == "準備中" %}
+                                    <i class="bg-primary"></i>{{ order.status }}
+                                    {% elif order.status == "已出貨" %}
+                                    <i class="bg-success"></i><strong>{{ order.status }}</strong>
+                                    {% elif order.status == "已取消" %}
+                                    <i class="bg-danger"></i><strong>{{ order.status }}</strong>
+                                    {% endif %}
+                                </span>
+                            </td>
                             <td>{{ order.receiver }}</td>
                             <td>{{ order.phone }}</td>
                             <td>{{ order.received_type }}</td>
                             <td>{{ order.address }}</td>
+                            <td>
+                                <span class="badge badge-dot mr-4">
+                                    {% if order.payment_status == "未付款" %}
+                                    <i class="bg-danger"></i><strong>{{ order.payment_status }}</strong>
+                                    {% elif order.payment_status == "已付款" %}
+                                    <i class="bg-success"></i><strong>{{ order.payment_status }}</strong>
+                                    {% endif%}
+                                </span>
+                            </td>
                             <td>{{ order.updated_time.strftime('%Y-%m-%d %H:%M') }}</td>
-                            <td>{{ order.note }}</td>
+                            <td>
+                                <a href="" data-toggle="modal" data-target="#order_edit_{{ loop.index }}"><i class="fas fa-edit"></i></a>
+                                {% include "order/order_edit.html" %}
+                                <a href=""><i class="fas fa-trash-alt"></i></a>
+                                
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

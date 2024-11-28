@@ -1,0 +1,66 @@
+<div class="modal fade" id="order_edit_{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog model-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">訂單編輯</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form method="POST" enctype="multipart/form-data" action="">
+            <div class="form-group">
+                <label>訂單編號</label>
+            <input type="text" class="form-control form-control-sm" value="{{ order.id }}">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>收件人</label>
+                    <input type="text" class="form-control form-control-sm" value="{{ order.receiver }}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>聯絡電話</label>
+                    <input type="text" class="form-control form-control-sm" value="{{ order.phone }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>取貨方式</label>
+                    <select class="custom-select" id="received_type">
+                        <option selected>{{ order.received_type }}</option>
+                        <option value="來店自取">來店自取</option>
+                    </select>
+                    
+                </div>
+                <div class="form-group col-md-9">
+                    <label>地址</label>
+                    <input type="text" class="form-control" value="{{ order.address }}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>付款狀態</label>
+                    <select class="custom-select" id="received_type">
+                        <option selected>{{ order.payment_status }}</option>
+                        
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>出貨狀態</label>
+                    <select class="custom-select" id="received_type">
+                        <option selected>{{ order.status }}</option>
+                        
+                    </select>
+                </div>
+            </div>
+            
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">修改</button>
+        </div>
+      </div>
+    </div>
+</div>

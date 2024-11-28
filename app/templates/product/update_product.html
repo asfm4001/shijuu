@@ -17,7 +17,7 @@
                             {{ form.csrf_token() }}
                             {{ render_field(form.img, class="form-control") }}
                             {{ render_field(form.name, placeholder="商品名稱", class="form-control", value=i.name) }}
-                            {{ render_field(form.category, class="form-control selectpicker", title="商品種類", value=i.category) }}
+                            {{ render_field(form.category, class="form-control selectpicker", title="商品種類", option=i.category) }}
                             {{ render_field(form.price, placeholder="價錢", value=i.price) }}
                         {% endif %}
                         <div class="form-group">

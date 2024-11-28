@@ -49,8 +49,9 @@ def products_all():
 ### 商品查詢(item) ###
 @app.route("/products/items/<int:product_id>", methods=["GET", "POST"])
 def products(product_id):
-    products = [Product.query.filter_by(id=product_id).first()] # 僅只有一個物件時也要加入陣列
-    return render_template("product/product_page.html", products=products)
+    # products = [Product.query.filter_by(id=product_id).first()] # 僅只有一個物件時也要加入陣列
+    product = Product.query.filter_by(id=product_id).first()
+    return render_template("product/product.html", product=product)
 
 ### 商品查詢(category) ###
 @app.route("/products/items/categorys/<category>", methods=["GET", "POST"])
