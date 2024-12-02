@@ -60,7 +60,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(255), nullable=False)    #20->255, 儲存至mysql時需擴充欄位大小
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
     cart = db.relationship("Cart", uselist=False, back_populates="user")
     orders = db.relationship("Order", backref=db.backref("owner", lazy=True))
@@ -99,6 +99,10 @@ class Order(db.Model):
                 quantity = cp.quantity
             )
             db.session.add(op)
+            db.session.commit()
+    def cleanOrder(slef):
+        for op in slef.order_products:
+            db.session.delete(op)
             db.session.commit()
 
 ### Cart(n) <- CartProduct -> Product(n)

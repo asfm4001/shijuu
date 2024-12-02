@@ -57,7 +57,10 @@ def products(product_id):
 @app.route("/products/items/categorys/<category>", methods=["GET", "POST"])
 def products_categorys(category):
     products = Product.query.filter_by(category=category)
-    return render_template("product/product_page.html", products=products)
+    if category == "cake": category_name = "蛋糕"
+    if category == "milk_roll_cake": category_name = "生乳捲"
+    if category == "gift_basket": category_name = "禮盒"
+    return render_template("product/product_page.html", products=products, category_name=category_name)
 
 ### 商品刪除 ###
 @app.route("/products/items/delete/<int:product_id>", methods=["GET", "POST"])
@@ -160,23 +163,61 @@ def logout():
 ### 訂單查詢(all) ###
 @app.route("/orders/all", methods=["GET", "POST"])
 def orders():
-    orders = Order.query.order_by(Order.id.desc()).all()
-    return render_template("order/order_page.html", orders=orders)
+    try:
+        if current_user.is_admin == True:
+            orders = Order.query.order_by(Order.id.desc()).all()
+            return render_template("order/order_page.html", orders=orders)
+    except:
+        return "無權訪問", 403
 
 ### 訂單查詢頁面 ###
 @app.route("/orders/query", methods=["GET", "POST"])
 def order_query():
-    form = OrderQueryFrom()
-    if form.is_submitted():
-        if form.validate_on_submit():
-            phone = form.phone.data
-            # email = form.email.data
-            orders = Order.query.filter_by(phone=phone).all()
-            print(orders)
-            return render_template("order/order_page.html", orders=orders)
-        else:
-            flash("查無資料或資料有誤", category="danger")
-    return render_template("order/order_query.html", form=form)
+    try: 
+        if current_user.is_admin == True:
+            return redirect(url_for("orders"))
+    except:
+        form = OrderQueryFrom()
+        if form.is_submitted():
+            if form.validate_on_submit():
+                phone = form.phone.data
+                # email = form.email.data
+                orders = Order.query.filter_by(phone=phone).all()
+                print(orders)
+                return render_template("order/order_page.html", orders=orders)
+            else:
+                flash("查無資料或資料有誤", category="danger")
+        return render_template("order/order_query.html", form=form)
+
+### 訂單修改 ###
+@app.route("/orders/update/<int:order_id>", methods=["POST"])
+def order_update(order_id):
+    if current_user.is_admin == False:
+        return "無權訪問", 403
+    order = Order.query.filter_by(id=order_id).first()
+    order.receiver = request.form.get("receiver")
+    order.phone = request.form.get("phone")
+    order.received_type = request.form.get("received_type")
+    if order.received_type == "來店自取":
+        order.address = "宜蘭縣羅東鎮天祥路78號"
+    else:
+        order.address = request.form.get("address")
+    order.payment_status = request.form.get("payment_status")
+    order.status = request.form.get("status")
+    db.session.commit()
+    return redirect(url_for("orders"))
+
+### 訂單刪除 ###
+@app.route("/orders/delete/<int:order_id>", methods=["POST"])
+def order_delete(order_id):
+    if current_user.is_admin == False:
+        return "無權訪問", 403
+    order = Order.query.filter_by(id=order_id).first()
+    order.cleanOrder()
+    db.session.delete(order)
+    db.session.commit()
+    flash("已刪除", category="success")
+    return redirect(url_for("orders"))
 
 ### 購物車確認 ###
 @app.route("/products/checkout/details", methods=["GET", "POST"])

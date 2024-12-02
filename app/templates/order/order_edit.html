@@ -1,65 +1,67 @@
-<div class="modal fade" id="order_edit_{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="order_edit_{{ loop.index }}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog model-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">訂單編輯</h5>
+          <h5 class="modal-title">訂單編輯</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
         <div class="modal-body">
-          <form method="POST" enctype="multipart/form-data" action="">
+          <form method="POST" enctype="multipart/form-data" action="{{ url_for('order_update', order_id=order.id) }}">
             <div class="form-group">
                 <label>訂單編號</label>
-            <input type="text" class="form-control form-control-sm" value="{{ order.id }}">
+            <input type="text" class="form-control form-control-sm" value="{{ order.id }}" readonly>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>收件人</label>
-                    <input type="text" class="form-control form-control-sm" value="{{ order.receiver }}">
+                    <input name="receiver" type="text" class="form-control form-control-sm" value="{{ order.receiver }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label>聯絡電話</label>
-                    <input type="text" class="form-control form-control-sm" value="{{ order.phone }}">
+                    <input name="phone" type="text" class="form-control form-control-sm" value="{{ order.phone }}">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label>取貨方式</label>
-                    <select class="custom-select" id="received_type">
-                        <option selected>{{ order.received_type }}</option>
-                        <option value="來店自取">來店自取</option>
+                    <select name="received_type" class="custom-select" id="received_type">
+                        <option {% if order.received_type == "宅配" %}selected{% endif %} value="宅配">宅配</option>
+                        <option {% if order.received_type == "來店自取" %}selected{% endif %} value="來店自取">來店自取</option>
                     </select>
                     
                 </div>
                 <div class="form-group col-md-9">
                     <label>地址</label>
-                    <input type="text" class="form-control" value="{{ order.address }}">
+                    <input name="address" type="text" class="form-control" value="{{ order.address }}">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>付款狀態</label>
-                    <select class="custom-select" id="received_type">
-                        <option selected>{{ order.payment_status }}</option>
-                        
+                    <select name="payment_status" class="custom-select" id="payment_status">
+                        <option {% if order.payment_status == "未付款" %}selected{% endif %} value="未付款">未付款</option>
+                        <option {% if order.payment_status == "已付款" %}selected{% endif %} value="已付款">已付款</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label>出貨狀態</label>
-                    <select class="custom-select" id="received_type">
-                        <option selected>{{ order.status }}</option>
-                        
+                    <select name="status" class="custom-select" id="status">
+                      <option {% if order.status == "確認中" %}selected{% endif %} value="確認中">確認中</option>
+                      <option {% if order.status == "準備中" %}selected{% endif %} value="準備中">準備中</option>
+                      <option {% if order.status == "已出貨" %}selected{% endif %} value="已出貨">已出貨</option>
+                      <option {% if order.status == "已取消" %}selected{% endif %} value="已取消">已取消</option>
                     </select>
                 </div>
             </div>
-            
+            <button type="submit" class="btn btn-primary">修改</button>
           </form>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">修改</button>
+          
         </div>
       </div>
     </div>
