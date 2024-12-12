@@ -168,26 +168,21 @@ def orders():
             orders = Order.query.order_by(Order.id.desc()).all()
             return render_template("order/order_page.html", orders=orders)
     except:
-        return "無權訪問", 403
+        return render_template("order/order_page.html", orders=orders)
 
 ### 訂單查詢頁面 ###
 @app.route("/orders/query", methods=["GET", "POST"])
 def order_query():
-    try: 
-        if current_user.is_admin == True:
-            return redirect(url_for("orders"))
-    except:
-        form = OrderQueryFrom()
-        if form.is_submitted():
-            if form.validate_on_submit():
-                phone = form.phone.data
-                # email = form.email.data
-                orders = Order.query.filter_by(phone=phone).all()
-                print(orders)
-                return render_template("order/order_page.html", orders=orders)
-            else:
-                flash("查無資料或資料有誤", category="danger")
-        return render_template("order/order_query.html", form=form)
+    form = OrderQueryFrom()
+    if current_user.is_authenticated and current_user.is_admin:
+        return redirect(url_for("orders"))
+    if form.validate_on_submit():
+        phone = form.phone.data
+        # email = form.email.data
+        orders = Order.query.filter_by(phone=phone).all()
+        print(orders)
+        return render_template("order/order_page.html", orders=orders)
+    return render_template("order/order_query.html", form=form)
 
 ### 訂單修改 ###
 @app.route("/orders/update/<int:order_id>", methods=["POST"])
