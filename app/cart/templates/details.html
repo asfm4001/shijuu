@@ -85,13 +85,13 @@
                             <div class="list-group-content list-group-heading">
                                 {{ i.product.name }}
                             </div>
-                            <a href="{{ url_for('minus_cart', cart_id=current_user.cart.id, product_id=i.product.id) }}" type="button" class="btn btn-sm btn-secondary">
+                            <a href="{{ url_for('cart.minus_cart', cart_id=current_user.cart.id, product_id=i.product.id) }}" type="button" class="btn btn-sm btn-secondary">
                                 <i class="fas fa-minus"></i>
                             </a>
                             <div class="list-group-content text-center">
                                 <span>{{ i.quantity }}</span>
                             </div>
-                            <a href="{{ url_for('add_cart', cart_id=current_user.cart.id, product_id=i.product.id) }}" type="button" class="btn btn-sm btn-secondary">
+                            <a href="{{ url_for('cart.add_cart', cart_id=current_user.cart.id, product_id=i.product.id) }}" type="button" class="btn btn-sm btn-secondary">
                                 <i class="fas fa-plus"></i>
                             </a>
                             <div class="list-group-content text-right"><span>NT$ {{ i.product.price }}</span></div>

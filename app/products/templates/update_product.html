@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="py-3 text-center">
                     {% from 'bootstrap4/form.html' import render_field %}
-                    <form method="POST" enctype="multipart/form-data" action="{{ url_for('update_product', product_id=i.id) }}">
+                    <form method="POST" enctype="multipart/form-data" action="{{ url_for('products.update_product', product_id=i.id) }}">
                         <!-- <img src="{{ i.img }}" class="card-img-top img-fluid img-thumbnail"> -->
                         <img src="{{ i.img }}" class="avatar">
                         {% if form %}

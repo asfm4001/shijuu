@@ -1,4 +1,4 @@
-<div class="modal modal-muted fade" id="order_delete_{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="order_delete_{{ loop.index }}" aria-hidden="true">
+<div class="modal modal-muted fade" id="delete_product_{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="delete_product" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,11 +10,11 @@
             <div class="modal-body">
                 <div class="py-3 text-center">
                     <i class="fas fa-exclamation-circle fa-4x"></i>
-                    <h4 class="heading mt-4">確定要刪除{{ order.id }}這筆訂單?</h4>
+                    <h4 class="heading mt-4">確定要刪除{{ i.name }}這項商品?</h4>
                 </div>
             </div>
             <div class="modal-footer">
-                <form method="POST" action="{{ url_for('order_delete', order_id=order.id) }}">
+                <form method="POST" action="{{ url_for('products.delete_product', product_id=i.id) }}">
                     <button type="submit" class="btn btn-sm btn-danger" >刪除</button>
                 </form>
             </div>

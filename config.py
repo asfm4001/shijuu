@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-basedir = os.path.abspath(os.path.dirname(__file__)) # 當前檔案絕對路徑, __file__: 當前檔案
+basedir = os.path.abspath(os.path.dirname(__file__)) # 當前檔案絕對路徑, __file__: 當前檔案(config.py)
 load_dotenv()   # 引用.env檔
 
 class Config():

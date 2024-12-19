@@ -9,21 +9,21 @@
       <ul class="navbar-nav ml-auto align-items-lg-center">
         <h6 class="dropdown-header font-weight-600 d-lg-none px-0">Menu</h6>
         <li class="nav-item ">
-          <a class="nav-link" href="{{ url_for('products_all') }}">全部商品</a>
+          <a class="nav-link" href="{{ url_for('products.products_all') }}">全部商品</a>
         </li>
 
         <!-- 分類 -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbar_main_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分類</a>
           <div class="dropdown-menu" aria-labelledby="navbar_1_dropdown_1">
-            <a class="dropdown-item" href="{{ url_for('products_categorys', category='gift_basket') }}">禮盒</a>
-            <a class="dropdown-item" href="{{ url_for('products_categorys', category='cake') }}">蛋糕</a>
-            <a class="dropdown-item" href="{{ url_for('products_categorys', category='milk_roll_cake') }}">生乳捲</a>
+            <a class="dropdown-item" href="{{ url_for('products.products_categorys', category='gift_basket') }}">禮盒</a>
+            <a class="dropdown-item" href="{{ url_for('products.products_categorys', category='cake') }}">蛋糕</a>
+            <a class="dropdown-item" href="{{ url_for('products.products_categorys', category='milk_roll_cake') }}">生乳捲</a>
           </div>
         </li>
 
         <li class="nav-item ">
-          <a class="nav-link" href="{{ url_for('order_query') }}">訂單查詢</a>
+          <a class="nav-link" href="{{ url_for('orders.order_query') }}">訂單查詢</a>
         </li>
         <li class="nav-item ">
           <a class="nav-link" href="#">常見問題</a>
@@ -55,10 +55,10 @@
         <!-- user menu or signin -->
         {% if not current_user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link nav-link-icon " href="{{ url_for('signin') }}"><i class="fas fa-user"></i><span class="ml-2 d-lg-none">Signin</span></a>
+            <a class="nav-link nav-link-icon " href="{{ url_for('users.signin') }}"><i class="fas fa-user"></i><span class="ml-2 d-lg-none">Signin</span></a>
           </li>
         {% else %}
-          {% include "user/user_menu.html" %}
+          {% include "user_menu.html" %}
         {% endif %}
       </ul>
     </div>

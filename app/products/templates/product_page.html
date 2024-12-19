@@ -5,7 +5,7 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-white">
-                    <li class="breadcrumb-item" aria-current="page"><a href="{{ url_for('products_all') }}">全部商品</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ url_for('products.products_all') }}">全部商品</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ category_name }}</li>
                 </ol>
             </nav>
@@ -17,7 +17,7 @@
                             <span class="btn-inner--text">新增商品</span>
                         </button>
                         <!-- Modal, 未限制img大小 -->
-                        {% include "product/add_product.html" %}
+                        {% include "add_product.html" %}
                     {% endif %}
                 {% endif %}
             </div>
@@ -28,7 +28,7 @@
                 {% for i in products %}
                     <div class="col-lg-3">
                         <div class="card mt-3"  style="width: 15rem;">
-                            <a href="{{ url_for('products', product_id=i.id)}}">
+                            <a href="{{ url_for('products.products', product_id=i.id)}}">
                                 <img src="{{ i.img }}" class="card-img-top img-fluid img-thumbnail" style="height: 15rem;">
                             </a>
                             
@@ -40,7 +40,7 @@
                                 <!-- <p class="mt-2">{{ i.context }}</p> -->
                                 <div class="justify-content-center">
                                     {% if current_user.cart %}
-                                    <form action="{{ url_for('add_cart', cart_id=current_user.cart.id, product_id=i.id) }}" method="POST">
+                                    <form action="{{ url_for('cart.add_cart', cart_id=current_user.cart.id, product_id=i.id) }}" method="POST">
                                         <button type="submit" class="btn btn-sm btn-outline-tertiary btn-icon onclick">
                                             <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
                                             {% if current_user.cart.checkProduct(i)[0] %}
@@ -58,12 +58,12 @@
                                             <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
                                         </button>
                                         <!-- Modal, data-target加上{{ loop.index }}變數對映modal's id標籤 -->
-                                        {% include "product/update_product.html" %}
+                                        {% include "update_product.html" %}
                                         <button type="button" class="btn btn-sm btn-outline-danger btn-icon-only" data-toggle="modal" data-target="#delete_product_{{ loop.index }}">
                                             <span class="btn-inner--icon"><i class="fas fa-trash-alt"></i></span>
                                         </button>
                                         <!-- Modal, data-target加上{{ loop.index }}變數對映modal's id標籤 -->
-                                        {% include "product/delete_product.html" %}
+                                        {% include "delete_product.html" %}
                                     </div>
                                 {% endif %}
                                 <div class="mt-2 justify-content-center">

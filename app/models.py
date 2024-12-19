@@ -1,6 +1,13 @@
-from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin
+from flask_bcrypt import Bcrypt
 from datetime import datetime
-from app import db, login
+# from app import db, login
+
+db = SQLAlchemy()
+login = LoginManager()
+bcrypt = Bcrypt()
+
 
 @login.user_loader
 def load_user(user_id):

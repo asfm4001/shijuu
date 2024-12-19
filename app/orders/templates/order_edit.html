@@ -9,7 +9,7 @@
         </div>
 
         <div class="modal-body">
-          <form method="POST" enctype="multipart/form-data" action="{{ url_for('order_update', order_id=order.id) }}">
+          <form method="POST" enctype="multipart/form-data" action="{{ url_for('orders.order_update', order_id=order.id) }}">
             <div class="form-group">
                 <label>訂單編號</label>
             <input type="text" class="form-control form-control-sm" value="{{ order.id }}" readonly>
