@@ -1,14 +1,14 @@
 import os
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, current_app
 from flask_login import current_user
-from app import config, db
+from app import db
 from app.forms import AddProductForm
 from app.models import Product
 from . import products_bp
 
 # 篩選副檔名符合條件的檔案
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in config["ALLOWED_EXTENSIONS"]
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config["ALLOWED_EXTENSIONS"]
 
 @products_bp.route("/all", methods=["GET", "POST"])
 def products_all():
@@ -24,7 +24,7 @@ def products_all():
         if img and allowed_file(img.filename):  # 以商品名稱重新命名img.filename
             filename = name + os.path.splitext(img.filename)[1]
                 # splitext, ("檔名", "副檔名")
-            img.save(os.path.join(config["PRODUCT_IMG_UPLOAD_FOLDER"], filename))
+            img.save(os.path.join(current_app.config["PRODUCT_IMG_UPLOAD_FOLDER"], filename))
             img_path = os.path.join("/", "static", "product", "items", filename)
         new_product = Product(name=name, category=category, price=price, context=context, img=img_path)
         db.session.add(new_product)

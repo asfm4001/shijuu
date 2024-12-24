@@ -11,3 +11,4 @@ Flask-Login == 0.6.3
 PyJWT == 2.9.0
 Flask-Mail == 0.10.0
 gunicorn == 23.0.0
+pytest == 8.3.4

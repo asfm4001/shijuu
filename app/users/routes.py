@@ -11,6 +11,12 @@ def register():
         username = form.username.data
         email = form.email.data
         password = bcrypt.generate_password_hash(form.password.data)
+        if User.query.filter_by(username=username).first():
+            flash('error', category='warning')
+            return render_template('register.html', form=form)
+        if User.query.filter_by(email=email).first():
+            flash('此信箱已被使用，請改使用其他信箱。', category='warning')
+            return render_template('register.html', form=form)
         user = User(username=username, email=email, password=password, is_admin=False)
         db.session.add(user)
         db.session.commit()
@@ -19,8 +25,8 @@ def register():
             db.session.add(cart)
             db.session.commit()
         flash("註冊成功!!", category="success")
-        return redirect(url_for("signin"))
-    return render_template("users.register.html", form=form)
+        return redirect(url_for("users.signin"))
+    return render_template("register.html", form=form)
 
 ### 登入 ###
 @users_bp.route("/signin", methods=["GET", "POST"])
@@ -36,8 +42,10 @@ def signin():
             login_user(user)
             session["username"] = user.username
             flash("歡迎回來", category="success")
-            return redirect(url_for("index"))
-        flash("找不到使用者或密碼錯誤", category="danger")
+            return redirect(url_for("main.index"))
+        else:
+            flash("error", category="danger")
+            return redirect(url_for("main.index"))
     return render_template("sign-in.html", form=form)
 
 ### 登出 ###
@@ -46,3 +54,13 @@ def signin():
 def logout():
     logout_user()
     return redirect(url_for("users.signin"))
+
+@users_bp.route('/testpage1')
+def testpage():
+    return "Hello"
+
+@users_bp.route('/turntotestpage1/<name>')
+def turntotestpage1(name):
+    if name == 'leo':
+        return redirect(url_for('users.testpage'))
+    return "error name"

@@ -1,0 +1,11 @@
+from app.models import User
+# from .conftest import app
+def test_register(client):
+    response = client.post("/register",
+                           date={
+                               'username': 'testuser',
+                               'email': 'testuser@gmail.com',
+                               'password': 'password',
+                               'confirm': 'password'})
+    with app.app_context():
+        assert User.query.filter_by(username='testuser').first()

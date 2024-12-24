@@ -70,5 +70,5 @@ def checkout_payment():
         db.session.commit()
         order.owner.cart.cleanCartProducts()
         flash("訂單已成立", category="success")
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     return render_template("payment.html", form=form, total_amount=total_amount)
