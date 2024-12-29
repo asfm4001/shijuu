@@ -28,6 +28,10 @@ def create_app(configname=None):
     login.login_message = "You must login to access this page."
     login.login_message_category = "info"
 
+    # create db
+    with app.app_context():
+        db.create_all()
+
     ### routes, blueprint
     app.register_blueprint(main_bp)
     app.register_blueprint(products_bp, url_prefix='/products') 
