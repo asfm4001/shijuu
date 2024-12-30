@@ -67,87 +67,112 @@
   * OrderProduct(中介表)
   > User (1)->(1) Cart (1)->(n) CartProduct (1)->(n) Product
   > User (1)->(n) Order (1)->(n) CartProduct (1)->(n) Product
+* Flask使用PyMySQL套件連至MySQL時，需安裝cryptography套件
 
-## 🚀 Run Locally 
+## 🚀 Run Locally
+### Flask app (Development & Testing)
 1. Clone至本地端
   ``` git clone https://github.com/asfm4001/shijuu.git ```
-2. 部署虛擬環境並進入
+2. 進入`shijuu/flask`
+   ``` cd ./flask ```
+3. 部署虛擬環境並進入
   ``` 
   python3 -m venv .venv
   source /bin/activate
   ```
-3. install models
+4. install models
   ``` pip install -r requirements.txt ```
-4. 自動化測試(非必要)
+5. 自動化測試(非必要)
   ``` pytest ```
-5. 調整```run.py```連線至測試環境資料庫```create_app('test')```
+6. 調整```run.py```連線至測試環境資料庫```create_app('test')```
     > devp/開發, test/測試, prod/正式(DB為MySQL)
-6. 執行flask
+7. 執行flask
   ``` flask run ```
-7. 在[這裡](http://localhost:5000/)可訪問Shijuu 西啾
-8. 測試用帳號密碼、data
+8. 在[這裡](http://localhost:5000/)可訪問Shijuu 西啾
+9. 測試用帳號密碼、data
    * user/password: test123/test123
    * admin/password: superadmin/superadmin
    * 訂單查詢/聯絡電話: 0800000123
-9. 關閉flask server
+10. 關閉flask server
   <kdb>ctrl</kdb> + <kdb>c</kdb>
-10. 退出虛擬環境
+11.  退出虛擬環境
   ``` deactivate ```
+
+### Nginx + Flask(Gnuicorn) + MySQL  (Production with docker compose)
+1. 確保本機已安裝docker, 在[這裡下載docker](https://docs.docker.com/get-started/get-docker/)
+2. 確保本機80port無進程佔用，Nginx會使用80port
+3. 啟動docker compose
+   ``` docker compose up ```
+4. 關閉docker compose
+   ``` docker compose down ```
 
 ## 🗂️ File Structure 
 ```
 .
 ├── README.md
-├── requirements.txt
-├── run.py
-├── config.py
-├── instance
-│   ├── devp-data.sqlite
-│   └── test-data.sqlite
-│── app
-│   ├── __init__.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── routes.py
-│   ├── static
-│   ├── templates
-│   │   ├── about.html
-│   │   ├── base.html
-│   │   ├── footer.html
-│   │   ├── index.html
-│   │   ├── navbar.html
-│   │   └── shopping_cart.html
-│   ├── cart
+├── compose.yaml
+├── flask
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── config.py
+│   ├── run.py
+│   ├── instance
+│   │   ├── devp-data.sqlite
+│   │   └── test-data.sqlite
+│   ├── app
 │   │   ├── __init__.py
+│   │   ├── forms.py
+│   │   ├── models.py
 │   │   ├── routes.py
-│   │   └── templates
-│   │       ├── details.html
-│   │       └── payment.html
-│   ├── orders
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── templates
-│   │       ├── order_delete.html
-│   │       ├── order_edit.html
-│   │       ├── order_page.html
-│   │       └── order_query.html
-│   ├── products
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── templates
-│   │       ├── add_product.html
-│   │       ├── delete_product.html
-│   │       ├── product.html
-│   │       ├── product_page.html
-│   │       └── update_product.html
-│   └── users
+│   │   ├── static
+│   │   ├── main
+│   │   │   ├── __init__.py
+│   │   │   ├── errors.py
+│   │   │   ├── routes.py
+│   │   │   └── templates
+│   │   │       ├── 404.html
+│   │   │       └── 500.html
+│   │   ├── cart
+│   │   │   ├── __init__.py
+│   │   │   ├── routes.py
+│   │   │   └── templates
+│   │   │       ├── details.html
+│   │   │       └── payment.html
+│   │   ├── orders
+│   │   │   ├── __init__.py
+│   │   │   ├── routes.py
+│   │   │   └── templates
+│   │   │       ├── order_delete.html
+│   │   │       ├── order_edit.html
+│   │   │       ├── order_page.html
+│   │   │       └── order_query.html
+│   │   ├── products
+│   │   │   ├── __init__.py
+│   │   │   ├── routes.py
+│   │   │   └── templates
+│   │   │       ├── add_product.html
+│   │   │       ├── delete_product.html
+│   │   │       ├── product.html
+│   │   │       ├── product_page.html
+│   │   │       └── update_product.html
+│   │   ├── templates
+│   │   │   ├── about.html
+│   │   │   ├── base.html
+│   │   │   ├── footer.html
+│   │   │   ├── index.html
+│   │   │   ├── navbar.html
+│   │   │   └── shopping_cart.html
+│   │   └── users
+│   │       ├── __init__.py
+│   │       ├── routes.py
+│   │       └── templates
+│   │           ├── register.html
+│   │           ├── sign-in.html
+│   │           └── user_menu.html
+│   └── tests
 │       ├── __init__.py
-│       ├── routes.py
-│       └── templates
-│           ├── register.html
-│           ├── sign-in.html
-│           └── user_menu.html
-└── tests
-    ├── __init__.py
-    └── test_main.py
+│       └── test_main.py
+└── nginx
+    ├── default.conf
+    └── nginx.conf
 ```
