@@ -25,7 +25,7 @@
  ***Feature Features***
   - 修改：
     - [x] 限制僅管理權限可查詢所有訂單 113.11.28
-    - [x] 資料庫改為MySQL 113.11.28
+    - [x] 資料庫(prod)改為MySQL/新增PostGres 114.01.08
     - [x] Factory(工廠模式) 113.12.19
     - [x] Blueprint(藍圖) 113.12.19
     - [ ] 結帳時，輸入錯誤顯示提示訊息
@@ -55,19 +55,20 @@
 
 ## 🔧 Related Work 
 * 原Flask-Bootstrap因版本過舊不支援Bootstrap 4 & 5，改使用Bootstrap-Flask
-* SQLAlchemy 可使用MySQL(docker)
+* SQLAlchemy 可使用MySQL、PostGres(docker)
 * Bcrypt 避免儲存user真實密碼
 * Flask-Login 使用sission儲存user狀態
 * Database Tables(1 to 1, 1 to n, n to n)
-  * User
+  * Users
   * Cart
   * Product
   * Order
   * CartProduct(中介表)
   * OrderProduct(中介表)
-  > User (1)->(1) Cart (1)->(n) CartProduct (1)->(n) Product
-  > User (1)->(n) Order (1)->(n) CartProduct (1)->(n) Product
+  > Users (1)->(1) Cart (1)->(n) CartProduct (1)->(n) Product
+  > Users (1)->(n) Order (1)->(n) CartProduct (1)->(n) Product
 * Flask使用PyMySQL套件連至MySQL時，需安裝cryptography套件
+* 使用PostGres時需安裝psycopg2，而此套件相依於c。因此改使用psycopg2-binary無需編譯的版本
 
 ## 🚀 Run Locally
 ### Flask app (Development & Testing)
@@ -98,17 +99,31 @@
 11.  退出虛擬環境
   ``` deactivate ```
 
-### Nginx + Flask(Gnuicorn) + MySQL  (Production with docker compose)
+### Nginx + Flask(Gnuicorn) + MySQL/PostGres (Production with docker compose)
 1. 確保本機已安裝docker, 在[這裡下載docker](https://docs.docker.com/get-started/get-docker/)
 2. 確保本機80port無進程佔用，Nginx會使用80port
-3. 啟動docker compose
+3. 依需求切換MySQL/PostGres(非必要, 預設為MySQL)
+    ```docker
+    # compose.yaml
+    services:
+      app_server:
+        environment:
+          # 擇一即可
+          DATABASE_URL: mysql+pymysql://test1234:pw1234@db_server_mysql:3306/flaskdatabase
+          # DATABASE_URL: postgresql://test1234:pw1234@db_server_postgres:5432/flaskdatabase
+    ```
+1. 啟動docker compose(依需求切換MySQL、PostGres)
    ``` docker compose up ```
-4. 關閉docker compose
+2. 在[這裡](http://localhost)可訪問Shijuu 西啾
+3. 關閉docker compose
    ``` docker compose down ```
 
 ## 🗂️ File Structure 
 ```
 .
+├── .env
+├── .venv
+├── .gitignore
 ├── README.md
 ├── compose.yaml
 ├── flask

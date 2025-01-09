@@ -14,3 +14,4 @@ gunicorn == 23.0.0
 pytest == 8.3.4
 PyMySQL == 1.1.1
 cryptography == 44.0.0 # 連至mysql需安裝此套件
+psycopg2-binary == 2.9.10 # 連至postgres需安裝此套件

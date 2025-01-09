@@ -48,7 +48,7 @@ class SigninForm(FlaskForm):
     password = PasswordField("密碼", validators=[DataRequired(), Length(min=6, max=20)])
     submit = SubmitField("註冊")
     def validate_name(self, username, password):  # name 必須與上方的變數名相同
-        user = User.query.filter_by(username=username.data).first() 
+        user = Users.query.filter_by(username=username.data).first() 
         if user :
             raise ValidationError("帳號不存在或密碼錯誤")
         

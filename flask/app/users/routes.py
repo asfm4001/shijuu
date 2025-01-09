@@ -10,14 +10,14 @@ def register():
     if form.validate_on_submit():
         username = form.username.data
         email = form.email.data
-        password = bcrypt.generate_password_hash(form.password.data)
-        if User.query.filter_by(username=username).first():
-            flash('error', category='warning')
+        password = bcrypt.generate_password_hash(form.password.data).decode('UTF-8')
+        if Users.query.filter_by(username=username).first():
+            flash('此帳號已被使用，請改使用其他帳號', category='warning')
             return render_template('register.html', form=form)
-        if User.query.filter_by(email=email).first():
+        if Users.query.filter_by(email=email).first():
             flash('此信箱已被使用，請改使用其他信箱。', category='warning')
             return render_template('register.html', form=form)
-        user = User(username=username, email=email, password=password, is_admin=False)
+        user = Users(username=username, email=email, password=password, is_admin=False)
         db.session.add(user)
         db.session.commit()
         if not user.cart:
@@ -32,13 +32,13 @@ def register():
 @users_bp.route("/signin", methods=["GET", "POST"])
 def signin():
     if current_user.is_authenticated:
-        return redirect(url_for("index"))
+        return redirect(url_for("main.index"))
     form = SigninForm()
     username = form.username.data
     password = form.password.data
-    user = User.query.filter_by(username=username).first()
+    user = Users.query.filter_by(username=username).first()
     if form.validate_on_submit():
-        if user and bcrypt.check_password_hash(user.password, password):
+        if user and bcrypt.check_password_hash(user.password.encode('UTF-8'), password):
             login_user(user)
             session["username"] = user.username
             flash("歡迎回來", category="success")

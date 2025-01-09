@@ -10,13 +10,13 @@ bcrypt = Bcrypt()
 
 @login.user_loader
 def load_user(user_id):
-    return User.query.filter_by(id=user_id).first()
+    return Users.query.filter_by(id=user_id).first()
 
 # Cart(1) <-> CartProduct <-> Product(n)
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id =db.Column(db.Integer, db.ForeignKey("user.id",))
-    user = db.relationship("User", back_populates="cart")
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id",))
+    user = db.relationship("Users", back_populates="cart")
     cart_products = db.relationship("CartProduct", back_populates="cart")
 
     ### 輸出(Boolen, index)
@@ -62,7 +62,7 @@ class Product(db.Model):
 
 ### User(1) <-> Cart(1), uselist=Fasle
 ### User(1) <-> Order(n)
-class User(db.Model, UserMixin):
+class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -71,12 +71,12 @@ class User(db.Model, UserMixin):
     cart = db.relationship("Cart", uselist=False, back_populates="user")
     orders = db.relationship("Order", backref=db.backref("owner", lazy=True))
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'<Users {self.username}>'
 
 # Order(n) <-> OrderProduct <-> Product(n)
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
     # user = db.relationship("User", back_populates="orders")
     order_products = db.relationship("OrderProduct", back_populates="order")
 

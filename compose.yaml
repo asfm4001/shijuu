@@ -13,22 +13,23 @@ services:
     # 3. 環境變數
     environment:
       SECRET_KEY: A_VERY_LONG_SECRET_KEY
-      DATABASE_URL: mysql+pymysql://test:test1234@db_server:3306/flaskdatabase
+      DATABASE_URL: mysql+pymysql://test1234:pw1234@db_server_mysql:3306/flaskdatabase
+      # DATABASE_URL: postgresql://test1234:pw1234@db_server_postgres:5432/flaskdatabase
     # 4. networks
     networks:
       - mynetwork
     # 5.depends_on
     depends_on:
-      db_server:
+      db_server_postgres:
         condition: service_healthy  # 確保db_server通過healthcheck再執行app_server
 
-  db_server:
+  db_server_mysql:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: Test1234
       MYSQL_DATABASE: flaskdatabase
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test1234
+      MYSQL_USER: test1234
+      MYSQL_PASSWORD: pw1234
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]  # 健康检查
       interval: 30s     # 檢查週期
@@ -37,7 +38,22 @@ services:
       timeout: 10s      # 檢查時間超過10秒為失敗
     networks:
       - mynetwork
-  
+
+  db_server_postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: flaskdatabase    # 必設
+      POSTGRES_USER: test1234
+      POSTGRES_PASSWORD: pw1234
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "test1234", "-d", "flaskdatabase", "-h", "localhost"]  # 健康检查
+      interval: 30s     # 檢查週期
+      retries: 5        # 若5次檢查失敗，標記為不健康
+      start_period: 5s  # 檢查時間為: 啟動後等待5秒
+      timeout: 10s      # 檢查時間超過10秒為失敗
+    networks:
+      - mynetwork
+
   web_server:
     image: nginx
     ports:
