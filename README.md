@@ -139,7 +139,7 @@
 │   │   ├── forms.py
 │   │   ├── models.py
 │   │   ├── routes.py
-│   │   ├── static
+│   │   ├── /static
 │   │   ├── main
 │   │   │   ├── __init__.py
 │   │   │   ├── errors.py
@@ -184,6 +184,13 @@
 │   │           ├── register.html
 │   │           ├── sign-in.html
 │   │           └── user_menu.html
+│   ├── migrations
+│   │   ├── __init__.py
+│   │   ├── README
+│   │   ├── alembic.ini
+│   │   ├── env.py
+│   │   ├── script.py.mako
+│   │   └── /versions
 │   └── tests
 │       ├── __init__.py
 │       └── test_main.py

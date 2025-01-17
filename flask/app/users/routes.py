@@ -44,8 +44,8 @@ def signin():
             flash("歡迎回來", category="success")
             return redirect(url_for("main.index"))
         else:
-            flash("error", category="danger")
-            return redirect(url_for("main.index"))
+            flash("帳號或密碼錯誤，請重新輸入", category="danger")
+            return redirect(url_for("users.signin"))
     return render_template("sign-in.html", form=form)
 
 ### 登出 ###

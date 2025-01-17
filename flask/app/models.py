@@ -1,9 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
 from datetime import datetime
 
 db = SQLAlchemy()
+migrate = Migrate()
 login = LoginManager()
 bcrypt = Bcrypt()
 
@@ -67,6 +69,7 @@ class Users(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)    #20->255, 儲存至mysql時需擴充欄位大小
+    address = db.Column(db.String(100))
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
     cart = db.relationship("Cart", uselist=False, back_populates="user")
     orders = db.relationship("Order", backref=db.backref("owner", lazy=True))

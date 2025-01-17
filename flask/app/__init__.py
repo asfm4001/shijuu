@@ -2,7 +2,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap4  # Bootstrap-Flask 仍使用相同套件名
 # from flask_wtf.csrf import CSRFProtect
 from config import config
-from app.models import db, login, bcrypt
+from app.models import db, login, bcrypt, migrate
 from .main import main_bp
 from .products import products_bp
 from .orders import orders_bp
@@ -19,6 +19,7 @@ def create_app(configname=None):
     
     bootstrap.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
     login.init_app(app)
     bcrypt.init_app(app)
     # csrf = CSRFProtect(app)  # 啟用CSRF保護(非flask form需使用)
