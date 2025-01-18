@@ -91,7 +91,7 @@
   ``` flask run ```
 8. 在[這裡](http://localhost:5000/)可訪問Shijuu 西啾
 9. 測試用帳號密碼、data
-   * user/password: test123/test123
+   * user/password: testadmin/testadmin
    * admin/password: superadmin/superadmin
    * 訂單查詢/聯絡電話: 0800000123
 10. 關閉flask server

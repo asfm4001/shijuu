@@ -8,6 +8,7 @@ from .products import products_bp
 from .orders import orders_bp
 from .users import users_bp
 from .cart import cart_bp
+from .api_v1 import api_v1_bp
 
 bootstrap = Bootstrap4()
 
@@ -39,6 +40,7 @@ def create_app(configname=None):
     app.register_blueprint(orders_bp, url_prefix='/orders') 
     app.register_blueprint(users_bp)
     app.register_blueprint(cart_bp)
+    app.register_blueprint(api_v1_bp, url_prefix='/api/v1')
 
     ### shell context
     # from app.models import User, Product, Cart, Order
